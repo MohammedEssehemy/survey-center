@@ -1,6 +1,6 @@
 # Survey Center
 
-NodeJs APIs to serve as backend for anonymous surveys app
+NodeJs APIs to serve as backend for anonymous surveys app, uses PostgreSQL for persistence.
 
 ## Running the app
 
@@ -18,7 +18,7 @@ yarn start:docker
 
 ### bare metal
 
-- create `.env` file and add the `PG_URL` pointing to the postgres db
+- copy `.env.example` to `.env` and change the `PG_URL` pointing to the PostgreSQL db
 
 - Run the migrations using `yarn migration:run`
 
@@ -28,9 +28,17 @@ yarn start:docker
 yarn start:dev
 ```
 
+- Or run in debugging mode
+
+```bash
+yarn start:debug
+```
+
 ### OpenAPI
 
-- App starts on port 3000
+- App starts on port 3000 by default
+
+- call `localhost:3000/` to validate the server is up
 
 - Navigate to `localhost:3000/docs` to get the openAPI docs or use the `swagger.json` in the project directory
 

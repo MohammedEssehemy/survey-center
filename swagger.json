@@ -1,6 +1,21 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/": {
+      "get": {
+        "operationId": "indexOperation",
+        "summary": "get server time",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The survey time"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
     "/survey": {
       "post": {
         "operationId": "createSurvey",
@@ -84,7 +99,9 @@
             "name": "surveyId",
             "required": true,
             "in": "path",
-            "schema": {}
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -113,7 +130,9 @@
             "name": "surveyId",
             "required": true,
             "in": "path",
-            "schema": {}
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -136,6 +155,16 @@
                 }
               }
             }
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveySubmissionResponseDTO"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -149,10 +178,20 @@
         "summary": "submissions for survey",
         "parameters": [
           {
+            "name": "surveyId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "limit",
             "required": false,
             "in": "query",
             "schema": {
+              "minimum": 1,
+              "maximum": 100,
               "default": 10,
               "type": "number"
             }
@@ -162,15 +201,10 @@
             "required": false,
             "in": "query",
             "schema": {
+              "minimum": 0,
               "default": 0,
               "type": "number"
             }
-          },
-          {
-            "name": "surveyId",
-            "required": true,
-            "in": "path",
-            "schema": {}
           }
         ],
         "responses": {

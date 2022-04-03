@@ -10,8 +10,8 @@ async function main() {
   if (process.env.NODE_ENV !== 'production') {
     await setupSwagger(app);
   }
-
-  await app.listen(3000);
+  const port = parseInt(process.env.PORT) || 3000;
+  await app.listen(port);
 }
 
 function setupSwagger(app: INestApplication) {
