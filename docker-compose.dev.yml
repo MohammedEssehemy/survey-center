@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  app:
+    image: surveycenter:dev
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    volumes:
+      - ./:/usr/src/app
+      - /usr/app/node_modules
+    environment:
+      - PG_URL=postgres://postgres:password@postgres_server:5432/survey_center
+    ports:
+      - 3000:3000
+      - 9229:9229
+    command: sh -c "yarn install && yarn migration:run && yarn start:debug"
+
+  postgres_server:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: survey_center
+      PGDATA: /data/postgres
+    volumes:
+      - /data/postgres
+    ports:
+      - "5432:5432"

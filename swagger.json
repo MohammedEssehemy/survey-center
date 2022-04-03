@@ -1,0 +1,325 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/survey": {
+      "post": {
+        "operationId": "createSurvey",
+        "summary": "create survey",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSurveyDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The survey has been created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "survey"
+        ]
+      },
+      "get": {
+        "operationId": "listSurveys",
+        "summary": "list of surveys survey",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "skip",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The surveys in the system",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "survey"
+        ]
+      }
+    },
+    "/survey/{surveyId}": {
+      "get": {
+        "operationId": "findSurveyById",
+        "summary": "get surveys by id",
+        "parameters": [
+          {
+            "name": "surveyId",
+            "required": true,
+            "in": "path",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "survey",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "survey"
+        ]
+      }
+    },
+    "/survey/{surveyId}/submit": {
+      "post": {
+        "operationId": "submitSurveyById",
+        "summary": "submit answers for survey",
+        "parameters": [
+          {
+            "name": "surveyId",
+            "required": true,
+            "in": "path",
+            "schema": {}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveySubmissionBodyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Submission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveySubmissionResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "survey"
+        ]
+      }
+    },
+    "/survey/{surveyId}/submissions": {
+      "get": {
+        "operationId": "submissionsForSurvey",
+        "summary": "submissions for survey",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "skip",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "surveyId",
+            "required": true,
+            "in": "path",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Submissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveySubmissionResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "survey"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Survey Center",
+    "description": "The survey center API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "SurveyQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "options"
+        ]
+      },
+      "CreateSurveyDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SurveyQuestionDTO"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "questions"
+        ]
+      },
+      "SurveyQuestionResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "options"
+        ]
+      },
+      "SurveyResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SurveyQuestionResponseDTO"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "questions"
+        ]
+      },
+      "SurveySubmissionBodyDto": {
+        "type": "object",
+        "properties": {
+          "answers": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "answers"
+        ]
+      },
+      "SurveySubmissionResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "surveyId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "answers",
+          "surveyId"
+        ]
+      }
+    }
+  }
+}
