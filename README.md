@@ -28,6 +28,12 @@ yarn start:docker
 yarn start:dev
 ```
 
+### OpenAPI
+
+- App starts on port 3000
+
+- Navigate to `localhost:3000/docs` to get the openAPI docs or use the `swagger.json` in the project directory
+
 ## Test
 
 ```bash
